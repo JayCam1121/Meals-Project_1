@@ -22,7 +22,6 @@ usersRouter.post('/signup', createUserValidators, createUser);
 
 usersRouter.post('/login', login);
 
-// Protecting below endpoints
 usersRouter.use(protectSession);
 
 usersRouter.patch('/:id', userExists, protectUsersAccount, updateUser);

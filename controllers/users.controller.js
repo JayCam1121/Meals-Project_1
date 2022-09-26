@@ -13,7 +13,6 @@ const createUser = async (req, res) => {
 	try {
     const { name, email, password, role } = req.body;
 
-    //Establishing roles...
     if (role !== "admin" && role !== "normal") {
 		return res.status(404).json({
 			status: "error",
@@ -21,7 +20,6 @@ const createUser = async (req, res) => {
 		});
     }
 
-    //Crypting password...
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await User.create({
@@ -101,15 +99,12 @@ const getAllOrdersByUser = async (req, res) => {
 	}
 };
 
-//Establishing login...
 const login = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		//Cheking if email given exist and is active...
 		const user = await User.findOne({ where: { email, status: "active" } });
 
-		//Comparing passwords...
 		if (!user || !(await bcrypt.compare(password, user.password))) {
 		return res.status(404).json({
 			status: "error",
@@ -118,7 +113,6 @@ const login = async (req, res) => {
 		}
 		user.password = undefined;
 
-		//Generating jwt...
 		const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
 		expiresIn: "30d",
 		});
