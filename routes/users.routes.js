@@ -28,6 +28,7 @@ usersRouter.use(protectSession);
 usersRouter.patch('/:id', userExists, protectUsersAccount, updateUser);
 
 usersRouter.delete('/:id', userExists, protectUsersAccount, deleteUser);
+
 usersRouter.get('/orders', getAllOrdersByUser);
 
 usersRouter.get('/orders/:id', orderExist, protectOrderOwners, getOrderByUser);
